@@ -7,21 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		503853B06DEA1D59236FBB6C /* Pods_SkyNow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79CAE278426DF2E0DF07C5F4 /* Pods_SkyNow.framework */; };
 		5F929CD8228C9E8500FC734B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F929CD7228C9E8500FC734B /* AppDelegate.swift */; };
-		5F929CDA228C9E8500FC734B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F929CD9228C9E8500FC734B /* ViewController.swift */; };
+		5F929CDA228C9E8500FC734B /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F929CD9228C9E8500FC734B /* WeatherViewController.swift */; };
 		5F929CDD228C9E8500FC734B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F929CDB228C9E8500FC734B /* Main.storyboard */; };
 		5F929CDF228C9E8500FC734B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F929CDE228C9E8500FC734B /* Assets.xcassets */; };
 		5F929CE2228C9E8500FC734B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F929CE0228C9E8500FC734B /* LaunchScreen.storyboard */; };
+		5FD16D98228CAB300044701A /* TodayWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D97228CAB300044701A /* TodayWeatherData.swift */; };
+		5FD16D9A228CB4D30044701A /* WeatherDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D99228CB4D30044701A /* WeatherDataHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5F929CD4228C9E8500FC734B /* SkyNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F929CD7228C9E8500FC734B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5F929CD9228C9E8500FC734B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5F929CD9228C9E8500FC734B /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		5F929CDC228C9E8500FC734B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F929CDE228C9E8500FC734B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F929CE1228C9E8500FC734B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F929CE3228C9E8500FC734B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5FD16D97228CAB300044701A /* TodayWeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherData.swift; sourceTree = "<group>"; };
+		5FD16D99228CB4D30044701A /* WeatherDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataHandler.swift; sourceTree = "<group>"; };
+		6C42638A870A09A94D8AA9EE /* Pods-SkyNow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyNow.debug.xcconfig"; path = "Target Support Files/Pods-SkyNow/Pods-SkyNow.debug.xcconfig"; sourceTree = "<group>"; };
+		79CAE278426DF2E0DF07C5F4 /* Pods_SkyNow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyNow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4401E2831BCEA2523975204 /* Pods-SkyNow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyNow.release.xcconfig"; path = "Target Support Files/Pods-SkyNow/Pods-SkyNow.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				503853B06DEA1D59236FBB6C /* Pods_SkyNow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +49,8 @@
 			children = (
 				5F929CD6228C9E8500FC734B /* SkyNow */,
 				5F929CD5228C9E8500FC734B /* Products */,
+				7AD4A276E10B161DA9599BB9 /* Pods */,
+				E5A980567F92579CE33F3B5D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +65,57 @@
 		5F929CD6228C9E8500FC734B /* SkyNow */ = {
 			isa = PBXGroup;
 			children = (
-				5F929CD7228C9E8500FC734B /* AppDelegate.swift */,
-				5F929CD9228C9E8500FC734B /* ViewController.swift */,
-				5F929CDB228C9E8500FC734B /* Main.storyboard */,
-				5F929CDE228C9E8500FC734B /* Assets.xcassets */,
+				5FD16D94228C9F8E0044701A /* Model */,
+				5FD16D95228C9FA90044701A /* View */,
+				5FD16D96228C9FB40044701A /* Controller */,
 				5F929CE0228C9E8500FC734B /* LaunchScreen.storyboard */,
+				5F929CDE228C9E8500FC734B /* Assets.xcassets */,
 				5F929CE3228C9E8500FC734B /* Info.plist */,
 			);
 			path = SkyNow;
+			sourceTree = "<group>";
+		};
+		5FD16D94228C9F8E0044701A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5FD16D97228CAB300044701A /* TodayWeatherData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5FD16D95228C9FA90044701A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5F929CDB228C9E8500FC734B /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5FD16D96228C9FB40044701A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5F929CD7228C9E8500FC734B /* AppDelegate.swift */,
+				5F929CD9228C9E8500FC734B /* WeatherViewController.swift */,
+				5FD16D99228CB4D30044701A /* WeatherDataHandler.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7AD4A276E10B161DA9599BB9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6C42638A870A09A94D8AA9EE /* Pods-SkyNow.debug.xcconfig */,
+				B4401E2831BCEA2523975204 /* Pods-SkyNow.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E5A980567F92579CE33F3B5D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79CAE278426DF2E0DF07C5F4 /* Pods_SkyNow.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +125,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5F929CE6228C9E8500FC734B /* Build configuration list for PBXNativeTarget "SkyNow" */;
 			buildPhases = (
+				92B4D29480A1AEBEA7C7DB12 /* [CP] Check Pods Manifest.lock */,
 				5F929CD0228C9E8500FC734B /* Sources */,
 				5F929CD1228C9E8500FC734B /* Frameworks */,
 				5F929CD2228C9E8500FC734B /* Resources */,
+				9251518E6961F201BC4A38F4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,13 +186,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9251518E6961F201BC4A38F4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SkyNow/Pods-SkyNow-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SkyNow/Pods-SkyNow-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		92B4D29480A1AEBEA7C7DB12 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SkyNow-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5F929CD0228C9E8500FC734B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F929CDA228C9E8500FC734B /* ViewController.swift in Sources */,
+				5F929CDA228C9E8500FC734B /* WeatherViewController.swift in Sources */,
+				5FD16D98228CAB300044701A /* TodayWeatherData.swift in Sources */,
 				5F929CD8228C9E8500FC734B /* AppDelegate.swift in Sources */,
+				5FD16D9A228CB4D30044701A /* WeatherDataHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,9 +389,11 @@
 		};
 		5F929CE7228C9E8500FC734B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C42638A870A09A94D8AA9EE /* Pods-SkyNow.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W7AVW8RD9R;
 				INFOPLIST_FILE = SkyNow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -297,9 +408,11 @@
 		};
 		5F929CE8228C9E8500FC734B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4401E2831BCEA2523975204 /* Pods-SkyNow.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W7AVW8RD9R;
 				INFOPLIST_FILE = SkyNow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
