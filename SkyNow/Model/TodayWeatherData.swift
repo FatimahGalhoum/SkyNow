@@ -8,27 +8,27 @@
 
 import Foundation
 
-//struct WeatherData : Codable {
-//    let list : [TodayWeatherData]
-//    let name : String
-//}
-//
-//struct TodayWeatherData : Codable {
-//    let main : Temperatures
-//    let weather : [WeatherIconData]
-//}
-//
-//struct Temperatures : Codable {
-//    let temp : Double
-//    let temp_min : Double
-//    let temp_max : Double
-//}
-//
-//struct WeatherIconData : Codable {
-//    let icon : String
-//}
-//
-//struct Date : Codable {
-//    let dt : String
-//}
+struct WeatherData : Codable {
+    let name : String
+}
+
+struct TodayWeatherData : Codable {
+    let main : Temperatures
+    let weather : [WeatherIconData]
+}
+
+struct Temperatures : Codable {
+    let temp : Double
+    let temp_min : Double
+    let temp_max : Double
+}
+
+struct WeatherIconData : Codable {
+    let description : String
+    let icon : String
+}
+
+struct Date : Codable {
+    let dt : Int
+}
 

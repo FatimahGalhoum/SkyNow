@@ -13,32 +13,15 @@ import SwiftyJSON
 
 
 
-
-struct WeatherData : Codable {
-    let list : [TodayWeatherData]
-    let name : String
-}
-
-struct TodayWeatherData : Codable {
-    let main : Temperatures
-    let weather : [WeatherIconData]
-}
-
-struct Temperatures : Codable {
-    let temp : Double
-    let temp_min : Double
-    let temp_max : Double
-}
-
-struct WeatherIconData : Codable {
-    let icon : String
-}
-
-struct Date : Codable {
-    let dt : String
-}
-
 class WeatherViewController: UIViewController,CLLocationManagerDelegate {
+    
+    @IBOutlet weak var cityLable: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var tempMaxLabel: UILabel!
+    @IBOutlet weak var tempMinLabel: UILabel!
+    @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet weak var todayLabel: UILabel!
+    
 
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
@@ -49,10 +32,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     
     //TODO: Declare instance variables here
     let locationManger = CLLocationManager()
-    //var weatherDataHandler : WeatherDataHandler!
-    //var weatherDataJSON: WeatherData?
-    var heroes = [WeatherData]()
-
+    var weatherDataHandler : WeatherDataHandler!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +43,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
         locationManger.requestWhenInUseAuthorization()
         locationManger.startUpdatingLocation()
         
+        
     }
 
     func getWeatherData(url : String, parameters: [String : String]){
@@ -71,34 +52,46 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
             response in
             if response.result.isSuccess {
                 print("Success! Got the weather data")
-                
-                
                 let json = response.data
+                //print(json!)
+                self.weatherDataHandler = WeatherDataHandler(data: json!)
+                self.weatherDataHandler.decodeData()
                 
-                do{
-                    //created the json decoder
-                    let decoder = JSONDecoder()
-                    
-                    //using the array to put values
-                    self.heroes = try decoder.decode([WeatherData].self, from: json!)
-                    
-                    //printing all the hero names
-                    for hero in self.heroes{
-                        print(hero)
-                    }
-                    
-                }catch let err{
-                    print(err)
-                }
-
+                self.uiDisplayTodayWeatherData()
                 
             } else {
                 print("Error \(response.result.error.debugDescription)")
-                //self.cityLabel.text = "Connection Issues"
+                self.cityLable.text = "Connection Issues"
             }
         }
         
     }
+    
+    func uiDisplayTodayWeatherData () {
+        
+        cityLable.text = weatherDataHandler.weatherDataJSON?.name
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
