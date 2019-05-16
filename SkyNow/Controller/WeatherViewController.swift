@@ -36,7 +36,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     let locationManger = CLLocationManager()
     var weatherDataJSON: WeatherData?
     var weatherDataTemperaturesJSON : TodayWeatherData?
-    var weatherDataDateJSON : Date?
+    var weatherDataDateJSON : weatherDate?
     
     
     override func viewDidLoad() {
@@ -67,11 +67,10 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
                 //print(json!)
                 let decoder = JSONDecoder()
                 
-                
                 do {
                 self.weatherDataJSON = try? decoder.decode(WeatherData.self, from: data!)
                 self.weatherDataTemperaturesJSON = try decoder.decode(TodayWeatherData.self, from: data!)
-                self.weatherDataDateJSON = try decoder.decode(Date.self, from: data!)
+                self.weatherDataDateJSON = try decoder.decode(weatherDate.self, from: data!)
                     
                     if let weatherData = self.weatherDataJSON{
                         print(weatherData)
@@ -83,6 +82,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
                 self.uiDisplayTodayWeatherData()
                 } catch {
                     print(error)
+                    print("error")
                     self.cityLable.text = "Weather Unavailable"
                 }
                 
@@ -96,6 +96,17 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     
     func uiDisplayTodayWeatherData () {
         cityLable.text = weatherDataJSON?.name
+        
+        let weatherDateString = weatherDataDateJSON?.dt
+        
+        if let date = weatherDateString {
+            let rawDate = Date(timeIntervalSince1970: date)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            todayLabel.text = "\(rawDate.dayOfTheWeek())"
+        }
+        
+        
     }
     
     
@@ -130,15 +141,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
         //cityLabel.text = "Location Unavailable"
     }
     /**************************************************/
-
-    
-    
-
-    
-    
-    
-    
-
 }
+
 
 

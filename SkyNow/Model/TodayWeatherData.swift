@@ -28,7 +28,7 @@ struct WeatherIconData : Codable {
     let icon : String
 }
 
-struct Date : Codable {
-    let dt : Int
+struct weatherDate : Codable {
+    let dt : Double
 }
 
