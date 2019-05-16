@@ -23,6 +23,8 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     @IBOutlet weak var todayLabel: UILabel!
     
 
+    
+
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
     let APP_ID = "7c609f73c5df2dff2f32e3e3cc33cd23"
@@ -32,7 +34,10 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     
     //TODO: Declare instance variables here
     let locationManger = CLLocationManager()
-    var weatherDataHandler : WeatherDataHandler!
+    var weatherDataJSON: WeatherData?
+    var weatherDataTemperaturesJSON : TodayWeatherData?
+    var weatherDataDateJSON : Date?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,18 +51,40 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
         
     }
 
+    
+    //handle data
+    /**************************************************/
     func getWeatherData(url : String, parameters: [String : String]){
         
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
             response in
             if response.result.isSuccess {
                 print("Success! Got the weather data")
-                let json = response.data
-                //print(json!)
-                self.weatherDataHandler = WeatherDataHandler(data: json!)
-                self.weatherDataHandler.decodeData()
                 
+                
+                var data : Data?
+                data = response.data
+                //print(json!)
+                let decoder = JSONDecoder()
+                
+                
+                do {
+                self.weatherDataJSON = try? decoder.decode(WeatherData.self, from: data!)
+                self.weatherDataTemperaturesJSON = try decoder.decode(TodayWeatherData.self, from: data!)
+                self.weatherDataDateJSON = try decoder.decode(Date.self, from: data!)
+                    
+                    if let weatherData = self.weatherDataJSON{
+                        print(weatherData)
+                        let weatherDataTemperatures = self.weatherDataTemperaturesJSON
+                        print(weatherDataTemperatures!)
+                        let weatherDataDate = self.weatherDataDateJSON
+                                        print(weatherDataDate!)
+                    }
                 self.uiDisplayTodayWeatherData()
+                } catch {
+                    print(error)
+                    self.cityLable.text = "Weather Unavailable"
+                }
                 
             } else {
                 print("Error \(response.result.error.debugDescription)")
@@ -68,12 +95,13 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     func uiDisplayTodayWeatherData () {
-        
-        cityLable.text = weatherDataHandler.weatherDataJSON?.name
-
+        cityLable.text = weatherDataJSON?.name
     }
     
     
+    
+    //Handle location
+    /**************************************************/
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let location = locations[locations.count - 1]
@@ -97,11 +125,13 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     
     
     //Write the didFailWithError method here:
-    //step 5
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
         //cityLabel.text = "Location Unavailable"
     }
+    /**************************************************/
+
+    
     
 
     
