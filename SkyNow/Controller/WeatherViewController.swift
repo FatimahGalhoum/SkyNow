@@ -74,26 +74,6 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let location = locations[locations.count - 1]
@@ -103,15 +83,11 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
             locationManger.delegate = nil
             
             print("longitude = \(location.coordinate.longitude), latitude = \(location.coordinate.latitude)")
-            
-            let latitude = String(location.coordinate.latitude)
-            let longitude = String(location.coordinate.longitude)
-            
-            let params : [String : String] = ["lat" : latitude, "lon" : longitude, "appid" : APP_ID]
+
+            let params : [String : String] = ["lat" : String(location.coordinate.latitude), "lon" : String(location.coordinate.longitude), "appid" : APP_ID]
             
             //let paramsForcast : [String : String] = ["lat" : latitude, "lon" : longitude, "cnt" : "16", "appid" : APP_ID]
             
-            // step 6
             getWeatherData(url: WEATHER_URL, parameters: params)
             
             //getWeatherDataForcast(url: FORCAST_API_URL, parameters: paramsForcast)
