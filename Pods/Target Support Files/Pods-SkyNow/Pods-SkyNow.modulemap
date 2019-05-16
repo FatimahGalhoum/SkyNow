@@ -1,0 +1,6 @@
+framework module Pods_SkyNow {
+  umbrella header "Pods-SkyNow-umbrella.h"
+
+  export *
+  module * { export * }
+}
