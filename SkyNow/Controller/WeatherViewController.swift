@@ -13,7 +13,7 @@ import SwiftyJSON
 
 
 
-class WeatherViewController: UIViewController,CLLocationManagerDelegate {
+class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeCityDelegate {
     
     @IBOutlet weak var cityLable: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -23,10 +23,10 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     @IBOutlet weak var todayLabel: UILabel!
     @IBOutlet weak var iconImage: UIImageView!
     @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var tempSwitch: UISwitch!
+    @IBOutlet weak var tempTypeLabel: UILabel!
     
-    
-    //Array
-    var iconArray = ["01d", "02d", "03d", "04d", "09d", "10d", "11d", "13d", "50d"]
+
     var iconBool : Bool?
     
 
@@ -100,19 +100,25 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     
-    
-    
+    //Ui handle
+    /**************************************************/
     func uiDisplayTodayWeatherData () {
         
         //Labels
         cityLable.text = weatherDataJSON?.name
 
+        //Weather Type degree
+        if tempSwitch.isOn == true {
         tempLabel.text = String(Int((weatherDataTemperaturesJSON?.main
             .temp)! - 273.15)) + "°"
-        
         tempMaxLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_max)! - 273.15))
-        
         tempMinLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_min)! - 273.15))
+        } else {
+            tempLabel.text = String(Int((weatherDataTemperaturesJSON?.main
+                .temp)!)) + "°"
+            tempMaxLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_max)!))
+            tempMinLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_min)!))
+        }
         
         
         //Date
@@ -123,43 +129,40 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
             todayLabel.text = "\(rawDate.dayOfTheWeek())"
         }
         
-        
         //description
         descriptionLabel.text = weatherDataTemperaturesJSON?.weather[0].description
-        
         
         //Weather Icon
         let weatherIconName = todayWeatherIcon.updateWeatherIcon(condition: (weatherDataTemperaturesJSON?.weather[0].id)!)
         let weatherIconNameNight = todayWeatherIcon.updateWeatherIconNight(conditionNight: (weatherDataTemperaturesJSON?.weather[0].id)!)
 
-        weatherIconCheck()
-        
-        if iconBool == true {
-        iconImage.image = UIImage(named: weatherIconName)
-        backgroundImage.image = UIImage(named: "sun")
-        } else {
-        iconImage.image = UIImage(named: weatherIconNameNight)
-        backgroundImage.image = UIImage(named: "night")
-
-        }
-        
-    }
-    
-    
-    func weatherIconCheck() {
-        
         let weatherIcon = weatherDataTemperaturesJSON?.weather[0].icon
         
-        for item in 0...8 {
-            if weatherIcon == iconArray[item] {
+        
+        if  (weatherIcon ==  "01d") || (weatherIcon == "02d") || (weatherIcon == "03d") || (weatherIcon == "04d") || (weatherIcon == "09d") || (weatherIcon == "10d") || (weatherIcon == "11d") || (weatherIcon == "13d") || (weatherIcon == "50d") {
+            iconImage.image = UIImage(named: weatherIconName)
+            backgroundImage.image = UIImage(named: "sun")
                 iconBool = true
             } else {
+            iconImage.image = UIImage(named: weatherIconNameNight)
+            backgroundImage.image = UIImage(named: "night")
                 iconBool = false
             }
-        }
+        
+        
+//        if iconBool == true {
+////        iconImage.image = UIImage(named: weatherIconName)
+////        backgroundImage.image = UIImage(named: "sun")
+//        } else {
+////        iconImage.image = UIImage(named: weatherIconNameNight)
+////        backgroundImage.image = UIImage(named: "night")
+//
+//        }
         
     }
     
+    /**************************************************/
+
     
     //Handle location
     /**************************************************/
@@ -184,13 +187,48 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
         }
     }
     
-    
     //Write the didFailWithError method here:
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
         //cityLabel.text = "Location Unavailable"
     }
     /**************************************************/
+    
+    
+    @IBAction func tempType(_ sender: UISwitch) {
+        
+        if (sender.isOn == true) {            
+            tempTypeLabel.text = "C°"
+            uiDisplayTodayWeatherData()
+        } else {
+            tempTypeLabel .text = "F°"
+            uiDisplayTodayWeatherData()
+        }
+
+    }
+    
+
+    //New City
+    /**************************************************/
+    func userEnteredANewCityName(city: String) {
+        //step17
+        let params : [String : String] = ["q" : city, "appid" : APP_ID]
+        //let paramsForcast : [String : String] = ["q" : city,"cnt" : "16", "appid" : APP_ID]
+        
+        getWeatherData(url: WEATHER_URL, parameters: params)
+        //getWeatherDataForcast(url: FORCAST_API_URL, parameters: paramsForcast)
+        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "changeCityName" {
+            
+            let destinationVC = segue.destination as! ChangeCityViewController
+            
+            destinationVC.delegate = self
+        }
+    }
+    
 }
 
 
