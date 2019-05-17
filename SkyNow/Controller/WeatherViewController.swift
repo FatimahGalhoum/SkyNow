@@ -13,8 +13,9 @@ import SwiftyJSON
 
 
 
-class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeCityDelegate {
-    
+class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeCityDelegate, UITableViewDataSource, UITableViewDelegate {
+
+    //Outlets
     @IBOutlet weak var cityLable: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tempMaxLabel: UILabel!
@@ -25,6 +26,8 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var tempSwitch: UISwitch!
     @IBOutlet weak var tempTypeLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    
     
 
     var iconBool : Bool?
@@ -35,14 +38,20 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     let APP_ID = "7c609f73c5df2dff2f32e3e3cc33cd23"
     
     //task
-    let FORCAST_API_URL = "http://api.openweathermap.org/data/2.5/forecast/daily"
+    let DAYS_API_URL = "http://api.openweathermap.org/data/2.5/forecast/daily"
     
     //TODO: Declare instance variables here
     let locationManger = CLLocationManager()
     let todayWeatherIcon = TodayWeatherDataIcons()
+    let forcastWeatherDays = ForcastWeather()
+    
+    //today
     var weatherDataJSON: WeatherData?
     var weatherDataTemperaturesJSON : TodayWeatherData?
     var weatherDataDateJSON : weatherDate?
+    
+    //days
+    var daysWeatherDataJson : DaysWeatherData?
     
     
     override func viewDidLoad() {
@@ -53,7 +62,8 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         locationManger.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManger.requestWhenInUseAuthorization()
         locationManger.startUpdatingLocation()
-        
+        tableView.delegate = self
+        tableView.dataSource = self
         
     }
 
@@ -61,36 +71,24 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     //handle data
     /**************************************************/
     func getWeatherData(url : String, parameters: [String : String]){
-        
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
             response in
             if response.result.isSuccess {
                 print("Success! Got the weather data")
-                
                 var data : Data?
                 data = response.data
                 //print(json!)
                 let decoder = JSONDecoder()
-                
                 do {
                 self.weatherDataJSON = try? decoder.decode(WeatherData.self, from: data!)
                 self.weatherDataTemperaturesJSON = try decoder.decode(TodayWeatherData.self, from: data!)
                 self.weatherDataDateJSON = try decoder.decode(weatherDate.self, from: data!)
-                    
-                    if let weatherData = self.weatherDataJSON{
-                        print(weatherData)
-                        let weatherDataTemperatures = self.weatherDataTemperaturesJSON
-                        print(weatherDataTemperatures!)
-                        let weatherDataDate = self.weatherDataDateJSON
-                                        print(weatherDataDate!)
-                    }
                 self.uiDisplayTodayWeatherData()
                 } catch {
                     print(error)
                     print("error")
                     self.cityLable.text = "Weather Unavailable"
                 }
-                
             } else {
                 print("Error \(response.result.error.debugDescription)")
                 self.cityLable.text = "Connection Issues"
@@ -100,13 +98,34 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     }
     
     
+    func getWeatherDataForDays(url : String, parameters: [String : String]){
+        Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
+            response in
+            if response.result.isSuccess {
+                print("Success! Got the weather data")
+                var data : Data?
+                data = response.data
+                //print(data!)
+                let decoder = JSONDecoder()
+                self.daysWeatherDataJson = try? decoder.decode(DaysWeatherData.self, from: data!)
+                self.uiDisplayDaysWeatherData()
+            } else {
+                print("Error \(response.result.error.debugDescription)")
+                self.cityLable.text = "Connection Issues"
+            }
+        }
+    }
+    
+    
+    
+    
     //Ui handle
     /**************************************************/
     func uiDisplayTodayWeatherData () {
         
         //Labels
         cityLable.text = weatherDataJSON?.name
-
+        
         //Weather Type degree
         if tempSwitch.isOn == true {
         tempLabel.text = String(Int((weatherDataTemperaturesJSON?.main
@@ -119,7 +138,6 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
             tempMaxLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_max)!))
             tempMinLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_min)!))
         }
-        
         
         //Date
         if let date = weatherDataDateJSON?.dt {
@@ -135,20 +153,17 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         //Weather Icon
         let weatherIconName = todayWeatherIcon.updateWeatherIcon(condition: (weatherDataTemperaturesJSON?.weather[0].id)!)
         let weatherIconNameNight = todayWeatherIcon.updateWeatherIconNight(conditionNight: (weatherDataTemperaturesJSON?.weather[0].id)!)
-
         let weatherIcon = weatherDataTemperaturesJSON?.weather[0].icon
-        
         
         if  (weatherIcon ==  "01d") || (weatherIcon == "02d") || (weatherIcon == "03d") || (weatherIcon == "04d") || (weatherIcon == "09d") || (weatherIcon == "10d") || (weatherIcon == "11d") || (weatherIcon == "13d") || (weatherIcon == "50d") {
             iconImage.image = UIImage(named: weatherIconName)
-            backgroundImage.image = UIImage(named: "sun")
+            backgroundImage.image = UIImage(named: "sunsmall")
                 iconBool = true
             } else {
             iconImage.image = UIImage(named: weatherIconNameNight)
-            backgroundImage.image = UIImage(named: "night")
+            backgroundImage.image = UIImage(named: "nightsmall")
                 iconBool = false
             }
-        
         
 //        if iconBool == true {
 ////        iconImage.image = UIImage(named: weatherIconName)
@@ -163,6 +178,35 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     
     /**************************************************/
 
+    func uiDisplayDaysWeatherData(){
+
+        //cityLable.text = daysWeatherDataJson?.city.name
+        
+        for item in 2...9 {
+
+        forcastWeatherDays.tempMaxArray.append(Int((daysWeatherDataJson?.list[item].temp.max)!))
+        
+        if let date = daysWeatherDataJson?.list[item].dt{
+            let rawDate = Date(timeIntervalSince1970: date)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            forcastWeatherDays.dateArray.append("\(rawDate.dayOfTheWeek())")
+        }
+        }
+        print(forcastWeatherDays.dateArray)
+        print(forcastWeatherDays.tempMaxArray)
+
+        self.tableView.reloadData()
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     //Handle location
     /**************************************************/
@@ -174,15 +218,13 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
             //to stop getting multiple lon and lat
             locationManger.delegate = nil
             
-            print("longitude = \(location.coordinate.longitude), latitude = \(location.coordinate.latitude)")
+            //print("longitude = \(location.coordinate.longitude), latitude = \(location.coordinate.latitude)")
 
             let params : [String : String] = ["lat" : String(location.coordinate.latitude), "lon" : String(location.coordinate.longitude), "appid" : APP_ID]
-            
-            //let paramsForcast : [String : String] = ["lat" : latitude, "lon" : longitude, "cnt" : "16", "appid" : APP_ID]
+            let paramsForcast : [String : String] = ["lat" : String(location.coordinate.latitude), "lon" : String(location.coordinate.longitude), "cnt" : "16", "appid" : APP_ID]
             
             getWeatherData(url: WEATHER_URL, parameters: params)
-            
-            //getWeatherDataForcast(url: FORCAST_API_URL, parameters: paramsForcast)
+            getWeatherDataForDays(url: DAYS_API_URL, parameters: paramsForcast)
             
         }
     }
@@ -190,11 +232,14 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     //Write the didFailWithError method here:
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
-        //cityLabel.text = "Location Unavailable"
+        cityLable.text = "Location Unavailable"
     }
     /**************************************************/
     
     
+    
+    //Switch
+    /**************************************************/
     @IBAction func tempType(_ sender: UISwitch) {
         
         if (sender.isOn == true) {            
@@ -206,6 +251,30 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         }
 
     }
+    /**************************************************/
+
+    
+    
+    //TabelView
+    /**************************************************/
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 7
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DaysWeatherTableViewCell
+        
+        
+        cell.maxTempLabel.text = String(forcastWeatherDays.tempMaxArray[indexPath.row])
+        cell.dayNameLabel.text = forcastWeatherDays.dateArray[indexPath.row]
+        
+        return cell
+        
+    }
+    /**************************************************/
+
+    
     
 
     //New City
@@ -213,22 +282,17 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     func userEnteredANewCityName(city: String) {
         //step17
         let params : [String : String] = ["q" : city, "appid" : APP_ID]
-        //let paramsForcast : [String : String] = ["q" : city,"cnt" : "16", "appid" : APP_ID]
-        
+        let paramsDays : [String : String] = ["q" : city,"cnt" : "16", "appid" : APP_ID]
         getWeatherData(url: WEATHER_URL, parameters: params)
-        //getWeatherDataForcast(url: FORCAST_API_URL, parameters: paramsForcast)
+        getWeatherDataForDays(url: DAYS_API_URL, parameters: paramsDays)
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "changeCityName" {
-            
             let destinationVC = segue.destination as! ChangeCityViewController
-            
             destinationVC.delegate = self
         }
     }
-    
 }
 
 

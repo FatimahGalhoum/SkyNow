@@ -16,6 +16,8 @@
 		5FD16D98228CAB300044701A /* TodayWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D97228CAB300044701A /* TodayWeatherData.swift */; };
 		5FD16D9E228E23430044701A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D9D228E23430044701A /* Extension.swift */; };
 		5FD16DA0228E68730044701A /* ChangeCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D9F228E68730044701A /* ChangeCityViewController.swift */; };
+		5FD16DA2228F30590044701A /* DaysWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16DA1228F30590044701A /* DaysWeatherData.swift */; };
+		5FD16DA4228F37DB0044701A /* DaysWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16DA3228F37DB0044701A /* DaysWeatherTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		5FD16D97228CAB300044701A /* TodayWeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherData.swift; sourceTree = "<group>"; };
 		5FD16D9D228E23430044701A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		5FD16D9F228E68730044701A /* ChangeCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCityViewController.swift; sourceTree = "<group>"; };
+		5FD16DA1228F30590044701A /* DaysWeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysWeatherData.swift; sourceTree = "<group>"; };
+		5FD16DA3228F37DB0044701A /* DaysWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		6C42638A870A09A94D8AA9EE /* Pods-SkyNow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyNow.debug.xcconfig"; path = "Target Support Files/Pods-SkyNow/Pods-SkyNow.debug.xcconfig"; sourceTree = "<group>"; };
 		79CAE278426DF2E0DF07C5F4 /* Pods_SkyNow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyNow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4401E2831BCEA2523975204 /* Pods-SkyNow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyNow.release.xcconfig"; path = "Target Support Files/Pods-SkyNow/Pods-SkyNow.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				5FD16D97228CAB300044701A /* TodayWeatherData.swift */,
+				5FD16DA1228F30590044701A /* DaysWeatherData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -100,6 +105,7 @@
 				5F929CD7228C9E8500FC734B /* AppDelegate.swift */,
 				5F929CD9228C9E8500FC734B /* WeatherViewController.swift */,
 				5FD16D9F228E68730044701A /* ChangeCityViewController.swift */,
+				5FD16DA3228F37DB0044701A /* DaysWeatherTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -254,8 +260,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F929CDA228C9E8500FC734B /* WeatherViewController.swift in Sources */,
+				5FD16DA2228F30590044701A /* DaysWeatherData.swift in Sources */,
 				5FD16D98228CAB300044701A /* TodayWeatherData.swift in Sources */,
 				5F929CD8228C9E8500FC734B /* AppDelegate.swift in Sources */,
+				5FD16DA4228F37DB0044701A /* DaysWeatherTableViewCell.swift in Sources */,
 				5FD16DA0228E68730044701A /* ChangeCityViewController.swift in Sources */,
 				5FD16D9E228E23430044701A /* Extension.swift in Sources */,
 			);
@@ -411,7 +419,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = FatimahGalhoum.SkyNow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FatimahGalhoum.SkyNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -430,7 +438,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = FatimahGalhoum.SkyNow;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FatimahGalhoum.SkyNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
