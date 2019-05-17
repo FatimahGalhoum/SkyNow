@@ -21,8 +21,13 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     @IBOutlet weak var tempMinLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var todayLabel: UILabel!
+    @IBOutlet weak var iconImage: UIImageView!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
-
+    
+    //Array
+    var iconArray = ["01d", "02d", "03d", "04d", "09d", "10d", "11d", "13d", "50d"]
+    var iconBool : Bool?
     
 
     //Constants
@@ -34,6 +39,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
     
     //TODO: Declare instance variables here
     let locationManger = CLLocationManager()
+    let todayWeatherIcon = TodayWeatherDataIcons()
     var weatherDataJSON: WeatherData?
     var weatherDataTemperaturesJSON : TodayWeatherData?
     var weatherDataDateJSON : weatherDate?
@@ -60,7 +66,6 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
             response in
             if response.result.isSuccess {
                 print("Success! Got the weather data")
-                
                 
                 var data : Data?
                 data = response.data
@@ -94,12 +99,24 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
         
     }
     
+    
+    
+    
     func uiDisplayTodayWeatherData () {
+        
+        //Labels
         cityLable.text = weatherDataJSON?.name
+
+        tempLabel.text = String(Int((weatherDataTemperaturesJSON?.main
+            .temp)! - 273.15)) + "°"
         
-        let weatherDateString = weatherDataDateJSON?.dt
+        tempMaxLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_max)! - 273.15))
         
-        if let date = weatherDateString {
+        tempMinLabel.text = String(Int((weatherDataTemperaturesJSON?.main.temp_min)! - 273.15))
+        
+        
+        //Date
+        if let date = weatherDataDateJSON?.dt {
             let rawDate = Date(timeIntervalSince1970: date)
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
@@ -107,8 +124,41 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate {
         }
         
         
+        //description
+        descriptionLabel.text = weatherDataTemperaturesJSON?.weather[0].description
+        
+        
+        //Weather Icon
+        let weatherIconName = todayWeatherIcon.updateWeatherIcon(condition: (weatherDataTemperaturesJSON?.weather[0].id)!)
+        let weatherIconNameNight = todayWeatherIcon.updateWeatherIconNight(conditionNight: (weatherDataTemperaturesJSON?.weather[0].id)!)
+
+        weatherIconCheck()
+        
+        if iconBool == true {
+        iconImage.image = UIImage(named: weatherIconName)
+        backgroundImage.image = UIImage(named: "sun")
+        } else {
+        iconImage.image = UIImage(named: weatherIconNameNight)
+        backgroundImage.image = UIImage(named: "night")
+
+        }
+        
     }
     
+    
+    func weatherIconCheck() {
+        
+        let weatherIcon = weatherDataTemperaturesJSON?.weather[0].icon
+        
+        for item in 0...8 {
+            if weatherIcon == iconArray[item] {
+                iconBool = true
+            } else {
+                iconBool = false
+            }
+        }
+        
+    }
     
     
     //Handle location

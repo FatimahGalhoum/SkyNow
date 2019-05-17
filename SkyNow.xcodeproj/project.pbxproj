@@ -15,6 +15,7 @@
 		5F929CE2228C9E8500FC734B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F929CE0228C9E8500FC734B /* LaunchScreen.storyboard */; };
 		5FD16D98228CAB300044701A /* TodayWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D97228CAB300044701A /* TodayWeatherData.swift */; };
 		5FD16D9E228E23430044701A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D9D228E23430044701A /* Extension.swift */; };
+		5FD16DA0228E68730044701A /* ChangeCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD16D9F228E68730044701A /* ChangeCityViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		5F929CE3228C9E8500FC734B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FD16D97228CAB300044701A /* TodayWeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherData.swift; sourceTree = "<group>"; };
 		5FD16D9D228E23430044701A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		5FD16D9F228E68730044701A /* ChangeCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCityViewController.swift; sourceTree = "<group>"; };
 		6C42638A870A09A94D8AA9EE /* Pods-SkyNow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyNow.debug.xcconfig"; path = "Target Support Files/Pods-SkyNow/Pods-SkyNow.debug.xcconfig"; sourceTree = "<group>"; };
 		79CAE278426DF2E0DF07C5F4 /* Pods_SkyNow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyNow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4401E2831BCEA2523975204 /* Pods-SkyNow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyNow.release.xcconfig"; path = "Target Support Files/Pods-SkyNow/Pods-SkyNow.release.xcconfig"; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				5F929CD7228C9E8500FC734B /* AppDelegate.swift */,
 				5F929CD9228C9E8500FC734B /* WeatherViewController.swift */,
+				5FD16D9F228E68730044701A /* ChangeCityViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				5F929CDA228C9E8500FC734B /* WeatherViewController.swift in Sources */,
 				5FD16D98228CAB300044701A /* TodayWeatherData.swift in Sources */,
 				5F929CD8228C9E8500FC734B /* AppDelegate.swift in Sources */,
+				5FD16DA0228E68730044701A /* ChangeCityViewController.swift in Sources */,
 				5FD16D9E228E23430044701A /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
