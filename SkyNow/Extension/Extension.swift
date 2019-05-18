@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 extension Date {
@@ -14,6 +15,16 @@ extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
         return dateFormatter.string(from: self)
+    }
+}
+
+
+
+extension UIImageView {
+    func setImageColor(color: UIColor) {
+        let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+        self.image = templateImage
+        self.tintColor = color
     }
 }
 

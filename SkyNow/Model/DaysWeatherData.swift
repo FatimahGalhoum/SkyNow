@@ -41,10 +41,11 @@ class ForcastWeather {
     
     
     var tempArray = [Int]()
-    var tempMaxArray = [Int]()
     var tempFArray = [Int]()
+    var tempMaxArray = [Int]()
     var tempMaxFArray = [Int]()
-    var conArray = [Int]()
+    var tempMinArray = [Int]()
+    var tempMinFArray = [Int]()
     var iconArray = [String]()
     var dateArray = [String]()
     

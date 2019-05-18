@@ -146,11 +146,51 @@ class TodayWeatherDataIcons {
             return "dunno"
         }
         
-        
-        
     }
     
-    
+        
+        func updateWeatherIconGray(conditionGray: Int) -> String {
+            
+            switch (conditionGray) {
+                
+            case 0...300 :
+                return "tstorm11gray"
+                
+            case 301...500 :
+                return "light_rain1gray"
+                
+            case 501...600 :
+                return "shower33gray"
+                
+            case 601...700 :
+                return "snow55gray"
+                
+            case 701...771 :
+                return "fog11gray"
+                
+            case 772...799 :
+                return "tstorm33gray"
+                
+            case 800 :
+                return "sunny1gray"
+                
+            case 801...804 :
+                return "cloudysungray"
+                
+            case 900...903, 905...1000  :
+                return "tstorm33gray"
+                
+            case 903 :
+                return "snow55gray"
+                
+            case 904 :
+                return "sunny1gray"
+                
+            default :
+                return "dunno"
+            }
+            
+        }
     
     
     

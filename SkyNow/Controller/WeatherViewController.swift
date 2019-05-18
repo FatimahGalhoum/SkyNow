@@ -64,8 +64,11 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         locationManger.startUpdatingLocation()
         tableView.delegate = self
         tableView.dataSource = self
+
         
     }
+
+
 
     
     //handle data
@@ -84,14 +87,18 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
                 self.weatherDataTemperaturesJSON = try decoder.decode(TodayWeatherData.self, from: data!)
                 self.weatherDataDateJSON = try decoder.decode(weatherDate.self, from: data!)
                 self.uiDisplayTodayWeatherData()
+
                 } catch {
                     print(error)
                     print("error")
                     self.cityLable.text = "Weather Unavailable"
                 }
+
             } else {
                 print("Error \(response.result.error.debugDescription)")
                 self.cityLable.text = "Connection Issues"
+                self.iconImage.image = UIImage(named: "dunno")
+                self.backgroundImage.image = UIImage(named: "nodata")
             }
         }
         
@@ -112,6 +119,8 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
             } else {
                 print("Error \(response.result.error.debugDescription)")
                 self.cityLable.text = "Connection Issues"
+                self.iconImage.image = UIImage(named: "dunno")
+                self.backgroundImage.image = UIImage(named: "nodata")
             }
         }
     }
@@ -154,7 +163,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         let weatherIconName = todayWeatherIcon.updateWeatherIcon(condition: (weatherDataTemperaturesJSON?.weather[0].id)!)
         let weatherIconNameNight = todayWeatherIcon.updateWeatherIconNight(conditionNight: (weatherDataTemperaturesJSON?.weather[0].id)!)
         let weatherIcon = weatherDataTemperaturesJSON?.weather[0].icon
-        
+
         if  (weatherIcon ==  "01d") || (weatherIcon == "02d") || (weatherIcon == "03d") || (weatherIcon == "04d") || (weatherIcon == "09d") || (weatherIcon == "10d") || (weatherIcon == "11d") || (weatherIcon == "13d") || (weatherIcon == "50d") {
             iconImage.image = UIImage(named: weatherIconName)
             backgroundImage.image = UIImage(named: "sunsmall")
@@ -164,6 +173,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
             backgroundImage.image = UIImage(named: "nightsmall")
                 iconBool = false
             }
+       
         
 //        if iconBool == true {
 ////        iconImage.image = UIImage(named: weatherIconName)
@@ -180,11 +190,19 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
 
     func uiDisplayDaysWeatherData(){
 
-        //cityLable.text = daysWeatherDataJson?.city.name
-        
+        clearArray()
         for item in 2...9 {
-
-        forcastWeatherDays.tempMaxArray.append(Int((daysWeatherDataJson?.list[item].temp.max)!))
+            
+            
+            //Temp
+            forcastWeatherDays.tempMaxArray.append(Int((daysWeatherDataJson?.list[item].temp.max)! - 273.15))
+            forcastWeatherDays.tempMinArray.append(Int((daysWeatherDataJson?.list[item].temp.min)! - 273.15))
+            forcastWeatherDays.tempMaxFArray.append(Int((daysWeatherDataJson?.list[item].temp.max)!))
+            forcastWeatherDays.tempMinFArray.append(Int((daysWeatherDataJson?.list[item].temp.min)!))
+            
+           // let dayWeatherIcon = todayWeatherIcon.updateWeatherIcon(condition: (daysWeatherDataJson?.list[item].weather[item].id)!)
+            forcastWeatherDays.iconArray.append(todayWeatherIcon.updateWeatherIconGray(conditionGray: (daysWeatherDataJson?.list[item].weather[0].id)!))
+            
         
         if let date = daysWeatherDataJson?.list[item].dt{
             let rawDate = Date(timeIntervalSince1970: date)
@@ -193,21 +211,20 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
             forcastWeatherDays.dateArray.append("\(rawDate.dayOfTheWeek())")
         }
         }
-        print(forcastWeatherDays.dateArray)
-        print(forcastWeatherDays.tempMaxArray)
-
         self.tableView.reloadData()
-
     }
     
+    func clearArray() {
+        self.forcastWeatherDays.tempArray.removeAll()
+        print(self.forcastWeatherDays.tempArray)
+        self.forcastWeatherDays.tempFArray.removeAll()
+        self.forcastWeatherDays.tempMaxFArray.removeAll()
+        self.forcastWeatherDays.tempMaxArray.removeAll()
+        self.forcastWeatherDays.dateArray.removeAll()
+        self.forcastWeatherDays.iconArray.removeAll()
+    }
     
-    
-    
-    
-    
-    
-    
-    
+
     //Handle location
     /**************************************************/
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -244,9 +261,11 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         
         if (sender.isOn == true) {            
             tempTypeLabel.text = "C°"
+            self.tableView.reloadData()
             uiDisplayTodayWeatherData()
         } else {
             tempTypeLabel .text = "F°"
+            self.tableView.reloadData()
             uiDisplayTodayWeatherData()
         }
 
@@ -258,7 +277,7 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
     //TabelView
     /**************************************************/
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return forcastWeatherDays.tempMaxArray.count - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -266,9 +285,17 @@ class WeatherViewController: UIViewController,CLLocationManagerDelegate, changeC
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DaysWeatherTableViewCell
         
         
-        cell.maxTempLabel.text = String(forcastWeatherDays.tempMaxArray[indexPath.row])
-        cell.dayNameLabel.text = forcastWeatherDays.dateArray[indexPath.row]
+        if tempSwitch.isOn == true {
+            cell.maxTempLabel.text = String(forcastWeatherDays.tempMaxArray[indexPath.row])
+            cell.minTempLabel.text = String(forcastWeatherDays.tempMinArray[indexPath.row])
+        } else {
+            cell.maxTempLabel.text = String(forcastWeatherDays.tempMaxFArray[indexPath.row])
+            cell.minTempLabel.text = String(forcastWeatherDays.tempMinFArray[indexPath.row])
+        }
         
+        cell.iconImage.image = UIImage(named: forcastWeatherDays.iconArray[indexPath.row])
+        cell.dayNameLabel.text = forcastWeatherDays.dateArray[indexPath.row]
+
         return cell
         
     }
